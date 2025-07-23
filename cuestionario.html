@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cuestionario Cumpleaños</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      background-color: #ffeaea;
+      padding: 20px;
+    }
+    .question-container {
+      display: none;
+      margin-bottom: 20px;
+    }
+    .question-container.active {
+      display: block;
+    }
+    .options button {
+      display: block;
+      margin: 10px auto;
+      padding: 10px 20px;
+      font-size: 18px;
+      cursor: pointer;
+    }
+    #resultImage {
+      max-width: 100%;
+      height: auto;
+      margin: 20px auto;
+      display: none;
+      animation: fadeIn 1s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    #giftContainer {
+      display: none;
+      margin-top: 30px;
+    }
+    #gift {
+      width: 150px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    #gift:active {
+      transform: scale(0.95);
+    }
+    #finalImage {
+      display: none;
+      margin-top: 20px;
+      max-width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎉 Cuestionario Especial 🎉</h1>
+
+  <div id="quizContainer"></div>
+  <img id="resultImage" src="" alt="Resultado">
+
+  <div id="giftContainer">
+    <h2>¡Has respondido todo bien! 🎁</h2>
+    <p>Pulsa el regalo 21 veces para abrirlo</p>
+    <img id="gift" src="img/regalo1.png" alt="Regalo">
+    <img id="finalImage" src="img/sorpresa.jpg" alt="Sorpresa final">
+  </div>
+
+  <script>
+    const questions = [
+      {
+        question: "¿Cuál fue nuestra primera cita?",
+        options: ["Cine", "Parque", "Cafetería", "Playa"],
+        correct: 0,
+        image: "img/correcta1.jpg"
+      },
+      {
+        question: "¿Qué día empezamos a salir?",
+        options: ["14 de febrero", "20 de abril", "1 de enero", "31 de octubre"],
+        correct: 1,
+        image: "img/correcta2.jpg"
+      },
+      // Añade más preguntas aquí...
+    ];
+
+    let currentQuestion = 0;
+    let correctCount = 0;
+    let clicks = 0;
+
+    const quizContainer = document.getElementById("quizContainer");
+    const resultImage = document.getElementById("resultImage");
+    const giftContainer = document.getElementById("giftContainer");
+    const gift = document.getElementById("gift");
+    const finalImage = document.getElementById("finalImage");
+
+    function showQuestion(index) {
+      quizContainer.innerHTML = "";
+      resultImage.style.display = "none";
+      if (index < questions.length) {
+        const q = questions[index];
+
+        const questionDiv = document.createElement("div");
+        questionDiv.className = "question-container active";
+
+        const questionText = document.createElement("h2");
+        questionText.textContent = q.question;
+        questionDiv.appendChild(questionText);
+
+        const optionsDiv = document.createElement("div");
+        optionsDiv.className = "options";
+
+        q.options.forEach((opt, i) => {
+          const btn = document.createElement("button");
+          btn.textContent = opt;
+          btn.onclick = () => checkAnswer(i);
+          optionsDiv.appendChild(btn);
+        });
+
+        questionDiv.appendChild(optionsDiv);
+        quizContainer.appendChild(questionDiv);
+      }
+    }
+
+    function checkAnswer(selected) {
+      const q = questions[currentQuestion];
+      if (selected === q.correct) {
+        correctCount++;
+        resultImage.src = q.image;
+      } else {
+        resultImage.src = "img/triste.gif";
+      }
+      resultImage.style.display = "block";
+      setTimeout(() => {
+        currentQuestion++;
+        if (currentQuestion < questions.length) {
+          showQuestion(currentQuestion);
+        } else {
+          if (correctCount === questions.length) {
+            showGift();
+          } else {
+            quizContainer.innerHTML = `<h2>¡Cuestionario terminado!</h2><p>Has acertado ${correctCount} de ${questions.length} preguntas. 😢</p>`;
+          }
+        }
+      }, 2000);
+    }
+
+    function showGift() {
+      giftContainer.style.display = "block";
+      gift.addEventListener("click", () => {
+        clicks++;
+        if (clicks <= 21) {
+          gift.src = `img/regalo${Math.min(clicks, 21)}.png`;
+        }
+        if (clicks === 21) {
+          finalImage.style.display = "block";
+        }
+      });
+    }
+
+    // Iniciar primer pregunta
+    showQuestion(currentQuestion);
+  </script>
+</body>
+</html>
