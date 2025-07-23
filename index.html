@@ -66,7 +66,7 @@
 
   <script>
     const preguntas = [
-      { q: "¿Cuando tu novio guaaaaaapo te hablo?", opciones: ["30 de mayo 2024", "29 de mayo 2024", "31 de mayo 2024"], correcta: 1 },
+      { q: "¿Cuando tu novio guaaaaaapo te hablo?", opciones: ["30 de mayo 2024", "29 de mayo 2024", "31 de mayo 2024"], correcta: 0 },
       { q: "¿Cuando tu novio joven te pedió salir?", opciones: ["28 de Agosto 2024", "28 de Septiembre 2024", "28 de Octubre 2024"], correcta: 1 },
       { q: "¿Donde tu chico ingeniero te pidió salir?", opciones: ["Pico de Las Nieves", "Mirador Llanos de la Mimbre", "Roque Nublo"], correcta: 1 },
       { q: "¿Cuando quedamos por primera vez?", opciones: ["5 de Julio 2024", "6 de Julio 2024", "2 de Julio 2024"], correcta: 0 },
@@ -99,19 +99,33 @@
     }
 
     function verificarRespuesta(indice) {
-      const p = preguntas[actual];
-      const feedback = document.getElementById('feedback');
+  const p = preguntas[actual];
+  const feedback = document.getElementById('feedback');
 
-      if (indice === p.correcta) {
-        feedback.innerHTML = `<p style='color:green;'>¡SUUUU! 💕</p><img src="images/correcta${actual + 1}.jpg" alt="correcta"> <br><button id='continue-btn' onclick='siguientePregunta()'>Siguiente pregunta</button>`;
-      } else {
-        feedback.innerHTML = `<p style='color:red;'>¡Oh no! Esa no era 😢</p><img src="images/triste.jpg" alt="triste">`;
-        // Puedes agregar un botón de reintentar si quieres aquí
-      }
+  if (indice === p.correcta) {
+    feedback.innerHTML = `
+      <p style='color:green;'>¡SUUUU! 💕</p>
+      <img src="images/correcta${actual + 1}.jpg" alt="correcta">
+      <br>
+      <button id='continue-btn' onclick='siguientePregunta()'>Siguiente pregunta</button>
+    `;
+  } else {
+    feedback.innerHTML = `
+      <p style='color:red;'>¡Oh no! Esa no era 😢</p>
+      <img src="images/triste.jpg" alt="triste">
+      <br>
+      <button id='continue-btn' onclick='reiniciar()'>Empezar de nuevo</button>
+    `;
+  }
 
-      const botones = document.querySelectorAll('.answers button');
-      botones.forEach(btn => btn.disabled = true);
-    }
+  const botones = document.querySelectorAll('.answers button');
+  botones.forEach(btn => btn.disabled = true);
+}
+
+function reiniciar() {
+  actual = 0;
+  mostrarPregunta();
+}
 
     function siguientePregunta() {
       actual++;
