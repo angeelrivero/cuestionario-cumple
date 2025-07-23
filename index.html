@@ -3,164 +3,126 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cuestionario Cumpleaños</title>
+  <title>Feliz Cumple Peque</title>
   <style>
     body {
-      font-family: 'Arial', sans-serif;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background: #ffeef8;
+      color: #4b2e2e;
       text-align: center;
-      background-color: #ffeaea;
       padding: 20px;
     }
-    .question-container {
-      display: none;
-      margin-bottom: 20px;
+    .question-box {
+      background: #fff0f5;
+      border: 3px dashed #ff69b4;
+      border-radius: 20px;
+      padding: 20px;
+      max-width: 600px;
+      margin: 20px auto;
+      box-shadow: 0 0 15px pink;
     }
-    .question-container.active {
+    .answers button {
       display: block;
+      width: 100%;
+      margin: 10px 0;
+      padding: 12px;
+      border-radius: 10px;
+      background-color: #ffcce0;
+      border: 2px solid #ff99cc;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
     }
-    .options button {
-      display: block;
-      margin: 10px auto;
+    .answers button:hover {
+      background-color: #ffb6c1;
+    }
+    .feedback {
+      margin-top: 20px;
+    }
+    .feedback img {
+      max-width: 300px;
+      border-radius: 15px;
+      margin-top: 10px;
+    }
+    #continue-btn {
+      margin-top: 20px;
       padding: 10px 20px;
       font-size: 18px;
+      background-color: #ff69b4;
+      color: white;
+      border: none;
+      border-radius: 10px;
       cursor: pointer;
     }
-    #resultImage {
-      max-width: 100%;
-      height: auto;
-      margin: 20px auto;
-      display: none;
-      animation: fadeIn 1s ease-in-out;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    #giftContainer {
-      display: none;
-      margin-top: 30px;
-    }
-    #gift {
-      width: 150px;
-      cursor: pointer;
-      transition: transform 0.2s;
-    }
-    #gift:active {
-      transform: scale(0.95);
-    }
-    #finalImage {
-      display: none;
-      margin-top: 20px;
-      max-width: 100%;
+    #continue-btn:hover {
+      background-color: #ff1493;
     }
   </style>
 </head>
 <body>
-  <h1>🎉 Cuestionario Especial 🎉</h1>
 
-  <div id="quizContainer"></div>
-  <img id="resultImage" src="" alt="Resultado">
-
-  <div id="giftContainer">
-    <h2>¡Has respondido todo bien! 🎁</h2>
-    <p>Pulsa el regalo 21 veces para abrirlo</p>
-    <img id="gift" src="img/regalo1.png" alt="Regalo">
-    <img id="finalImage" src="img/sorpresa.jpg" alt="Sorpresa final">
-  </div>
+  <h1>Feliz Cumple Peque💗</h1>
+  <div id="quiz"></div>
 
   <script>
-    const questions = [
-      {
-        question: "¿Cuál fue nuestra primera cita?",
-        options: ["Cine", "Parque", "Cafetería", "Playa"],
-        correct: 0,
-        image: "img/correcta1.jpg"
-      },
-      {
-        question: "¿Qué día empezamos a salir?",
-        options: ["14 de febrero", "20 de abril", "1 de enero", "31 de octubre"],
-        correct: 1,
-        image: "img/correcta2.jpg"
-      },
-      // Añade más preguntas aquí...
+    const preguntas = [
+      { q: "¿Cuando tu novio guaaaaaapo te hablo?", opciones: ["30 de mayo 2024", "29 de mayo 2024", "31 de mayo 2024"], correcta: 1 },
+      { q: "¿Cuando tu novio joven te pedió salir?", opciones: ["28 de Agosto 2024", "28 de Septiembre 2024", "28 de Octubre 2024"], correcta: 1 },
+      { q: "¿Donde tu chico ingeniero te pidió salir?", opciones: ["Pico de Las Nieves", "Mirador Llanos de la Mimbre", "Roque Nublo"], correcta: 1 },
+      { q: "¿Cuando quedamos por primera vez?", opciones: ["5 de Julio 2024", "6 de Julio 2024", "2 de Julio 2024"], correcta: 0 },
+      { q: "¿Que hicimos la primera vez que nos vimos?", opciones: ["BurguerKing", "Dennis Roys", "Macdonalds"], correcta: 2 },
+      { q: "¿Cuando fuimos a la playa por primera vez los 2?", opciones: ["7 de Julio de 2024", "8 de Julio de 2024", "11 de Julio de 2024"], correcta: 1 },
+      { q: "¿A que playa fuimos por primera vez?", opciones: ["Playa del Aguila", "Playa El Perchel", "Playa del Pajar"], correcta: 2 },
+      { q: "¿Cuando empezamos a hablar por WhatsApp?", opciones: ["18 de Julio de 2024", "17 de Julio de 2024", "19 de Julio de 2024"], correcta: 0 },
+      { q: "¿Cual fue el primer mensaje que te puse?", opciones: ["top top top", "Top top top", "Top Top Top"], correcta: 0 },
+      { q: "¿Cuando nos sacamos nuestra primera foto?", opciones: ["16 de Julio de 2024", "16 de Agosto de 2024", "16 de Septiembre de 2024"], correcta: 1 },
+      { q: "¿Donde fue nuestra primera foto?", opciones: ["Pico de las Nieves", "Playa del Aguila", "Las Canteras"], correcta: 0 },
+      { q: "¿Que dia tu novio bebesote conoció a tus papis?", opciones: ["5 de Octubre de 2024", "10 de Noviembre de 2024", "20 de Octubre de 2024"], correcta: 2 },
+      { q: "¿Cuando se 'conocieron' nuestros papis?", opciones: ["1 de Enero de 2025", "2 de Enero de 2025", "3 de Enero de 2025"], correcta: 0 }
     ];
 
-    let currentQuestion = 0;
-    let correctCount = 0;
-    let clicks = 0;
+    let actual = 0;
 
-    const quizContainer = document.getElementById("quizContainer");
-    const resultImage = document.getElementById("resultImage");
-    const giftContainer = document.getElementById("giftContainer");
-    const gift = document.getElementById("gift");
-    const finalImage = document.getElementById("finalImage");
-
-    function showQuestion(index) {
-      quizContainer.innerHTML = "";
-      resultImage.style.display = "none";
-      if (index < questions.length) {
-        const q = questions[index];
-
-        const questionDiv = document.createElement("div");
-        questionDiv.className = "question-container active";
-
-        const questionText = document.createElement("h2");
-        questionText.textContent = q.question;
-        questionDiv.appendChild(questionText);
-
-        const optionsDiv = document.createElement("div");
-        optionsDiv.className = "options";
-
-        q.options.forEach((opt, i) => {
-          const btn = document.createElement("button");
-          btn.textContent = opt;
-          btn.onclick = () => checkAnswer(i);
-          optionsDiv.appendChild(btn);
-        });
-
-        questionDiv.appendChild(optionsDiv);
-        quizContainer.appendChild(questionDiv);
-      }
+    function mostrarPregunta() {
+      const quiz = document.getElementById('quiz');
+      const p = preguntas[actual];
+      quiz.innerHTML = `
+        <div class="question-box">
+          <h2>Pregunta ${actual + 1}</h2>
+          <p>${p.q}</p>
+          <div class="answers">
+            ${p.opciones.map((op, i) => `<button onclick="verificarRespuesta(${i})">${op}</button>`).join('')}
+          </div>
+          <div class="feedback" id="feedback"></div>
+        </div>
+      `;
     }
 
-    function checkAnswer(selected) {
-      const q = questions[currentQuestion];
-      if (selected === q.correct) {
-        correctCount++;
-        resultImage.src = q.image;
+    function verificarRespuesta(indice) {
+      const p = preguntas[actual];
+      const feedback = document.getElementById('feedback');
+
+      if (indice === p.correcta) {
+        feedback.innerHTML = `<p style='color:green;'>¡SUUUU! 💕</p><img src="images/correcta${actual + 1}.jpg" alt="correcta"> <br><button id='continue-btn' onclick='siguientePregunta()'>Siguiente pregunta</button>`;
       } else {
-        resultImage.src = "img/triste.gif";
+        feedback.innerHTML = `<p style='color:red;'>¡Oh no! Esa no era 😢</p><img src="images/triste.jpg" alt="triste">`;
+        // Puedes agregar un botón de reintentar si quieres aquí
       }
-      resultImage.style.display = "block";
-      setTimeout(() => {
-        currentQuestion++;
-        if (currentQuestion < questions.length) {
-          showQuestion(currentQuestion);
-        } else {
-          if (correctCount === questions.length) {
-            showGift();
-          } else {
-            quizContainer.innerHTML = `<h2>¡Cuestionario terminado!</h2><p>Has acertado ${correctCount} de ${questions.length} preguntas. 😢</p>`;
-          }
-        }
-      }, 2000);
+
+      const botones = document.querySelectorAll('.answers button');
+      botones.forEach(btn => btn.disabled = true);
     }
 
-    function showGift() {
-      giftContainer.style.display = "block";
-      gift.addEventListener("click", () => {
-        clicks++;
-        if (clicks <= 21) {
-          gift.src = `img/regalo${Math.min(clicks, 21)}.png`;
-        }
-        if (clicks === 21) {
-          finalImage.style.display = "block";
-        }
-      });
+    function siguientePregunta() {
+      actual++;
+      if (actual < preguntas.length) {
+        mostrarPregunta();
+      } else {
+        document.getElementById('quiz').innerHTML = "<h2>🎁 ¡Has completado el cuestionario! 🎁</h2><p>Ahora desbloquea el regalo... (esto se programa en la siguiente parte)</p>";
+      }
     }
 
-    // Iniciar primer pregunta
-    showQuestion(currentQuestion);
+    mostrarPregunta();
   </script>
 </body>
 </html>
