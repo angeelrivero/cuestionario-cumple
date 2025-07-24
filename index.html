@@ -111,8 +111,11 @@
     `;
   } else {
     feedback.innerHTML = `
-      <p style='color:red;'>¡Oh no! Esa no era 😢</p>
-      <img src="images/triste.jpg" alt="triste">
+      <p style='color:red;'>¡Oh no! Peque, esa no era 😢</p>
+      <video width="300" autoplay loop muted playsinline style="border-radius:15px; margin-top:10px;">
+  <source src="images/triste.mp4" type="video/mp4">
+  Tu navegador no soporta video HTML5.
+</video>
       <br>
       <button id='continue-btn' onclick='reiniciar()'>Empezar de nuevo</button>
     `;
