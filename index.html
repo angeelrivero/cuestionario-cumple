@@ -57,6 +57,35 @@
     #continue-btn:hover {
       background-color: #ff1493;
     }
+
+    #regalo-emoji {
+  font-size: 120px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.agitandose {
+  animation: sacudir 0.3s;
+}
+
+@keyframes sacudir {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(-10deg); }
+  50% { transform: rotate(10deg); }
+  75% { transform: rotate(-5deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.emojis-finales {
+  font-size: 50px;
+  animation: flotar 1s infinite alternate;
+}
+
+@keyframes flotar {
+  from { transform: translateY(0px); }
+  to { transform: translateY(-10px); }
+}
+
   </style>
 </head>
 <body>
@@ -135,11 +164,54 @@ function reiniciar() {
       if (actual < preguntas.length) {
         mostrarPregunta();
       } else {
-        document.getElementById('quiz').innerHTML = "<h2>🎁 ¡Has completado el cuestionario! 🎁</h2><p>Ahora desbloquea el regalo... (esto se programa en la siguiente parte)</p>";
+        mostrarRegalo();
       }
     }
 
     mostrarPregunta();
+
+    let toquesRestantes = 21;
+
+function mostrarRegalo() {
+  document.getElementById('quiz').innerHTML = `
+    <div class="question-box" id="regalo-container">
+      <h2>🎁 ¡Has llegado al regalo! 🎁</h2>
+      <p>¡Tócalo 21 veces para abrirlo!</p>
+      <h1 id="contador-toques" style="font-size: 80px; color: #ff69b4;">21</h1>
+      <div id="regalo-emoji">🎁</div>
+      <div id="contenido-regalo" style="display: none; margin-top: 30px;"></div>
+    </div>
+  `;
+
+  let toques = 21;
+  const regalo = document.getElementById('regalo-emoji');
+  const contador = document.getElementById('contador-toques');
+  const contenido = document.getElementById('contenido-regalo');
+
+  regalo.addEventListener('click', () => {
+    if (toques > 1) {
+      toques--;
+      contador.textContent = toques;
+      regalo.classList.add('agitandose');
+      setTimeout(() => regalo.classList.remove('agitandose'), 300);
+    } else if (toques === 1) {
+      toques = 0;
+      contador.textContent = "🎉";
+      regalo.textContent = "💝";
+
+      setTimeout(() => {
+        contenido.style.display = "block";
+        contenido.innerHTML = `
+          <div class="emojis-finales">💗💓💖💕💘</div>
+          <h3>¡SORPRESAAA! Te quiero muchooo 😘</h3>
+          <p style="font-size: 20px;">¡Ahora ve a mirar tu regalitooo! 🎈</p>
+        `;
+      }, 800);
+    }
+  });
+}
+
+
   </script>
 </body>
 </html>
