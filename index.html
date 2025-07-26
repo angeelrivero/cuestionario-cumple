@@ -197,14 +197,13 @@ function mostrarRegalo() {
     } else if (toques === 1) {
       toques = 0;
       contador.textContent = "🎉";
-      regalo.textContent = "💝";
+      //regalo.textContent = "💝";
 
       setTimeout(() => {
         contenido.style.display = "block";
         contenido.innerHTML = `
           <div class="emojis-finales">💗💓💖💕💘</div>
-          <h3>¡SORPRESAAA! Te quiero muchooo 😘</h3>
-          <p style="font-size: 20px;">¡Ahora ve a mirar tu regalitooo! 🎈</p>
+          <h3>El Regalo esta en la caja ;)</h3>
         `;
       }, 800);
     }
